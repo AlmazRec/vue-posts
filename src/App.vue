@@ -17,6 +17,13 @@ function addPost() {
     }
 }
 
+function deletePost(postId) {
+    const index = posts.value.findIndex(post => post.id === postId);
+    if (index !== -1) {
+        posts.value.splice(index, 1);
+    }
+}
+
 </script>
 
 <template>
@@ -24,7 +31,7 @@ function addPost() {
         <div class="form-container">
             <div class="form-post">
                 <input v-model="newPost" type="text" placeholder="название...">
-                <button @click="addPost" type="submit">добавить</button>
+                <button class="form-button" @click="addPost" type="submit">добавить</button>
             </div>
         </div>
     </div>
@@ -33,8 +40,11 @@ function addPost() {
 
     <div class="content">
         <div class="posts"  v-for="post in posts" :key="post">
-            <h1> {{ post.id }} </h1>
-            <p> {{ post.text }} </p>
+            <div class="post">
+                <h1> {{ post.id }} </h1>
+                <p> {{ post.text }} </p>
+                <button @click="deletePost(post.id)">удалить</button>
+            </div>
         </div>
     </div>
 
@@ -51,7 +61,7 @@ function addPost() {
          padding-left: 10px;
          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
      }
-     button {
+     .form-button {
          display: inline-block;
          margin-top: 14px;
          width: 140px;
@@ -71,7 +81,7 @@ function addPost() {
          box-shadow: 0 2px 25px rgba(255, 183, 77, 0.7);
      }
 
-     button:active {
+     .form-button:active {
          transform: scale(0.9);
          background-color: #ffb74d; /* Темнее на 5% */
          box-shadow: 0 2px 25px rgba(255, 0, 130, 0.2);
@@ -109,14 +119,19 @@ function addPost() {
         flex-wrap: wrap;
     }
     .posts {
-        margin: 10px;
         display: flex;
+        flex-direction: column;
+        margin: 10px;
         background-color: greenyellow;
-        width: 100px;
-        height: 100px;
         border: 2px solid;
         border-radius: 10px;
         justify-content: center;
         align-items: center;
+    }
+    .post {
+        width: 150px;
+        height: 150px;
+        margin-left: 10px;
+        text-align: center;
     }
 </style>
